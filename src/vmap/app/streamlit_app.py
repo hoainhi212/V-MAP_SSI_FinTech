@@ -2,6 +2,9 @@
 import sys
 import time
 from pathlib import Path
+import streamlit as st
+from plotly.subplots import make_subplots
+import streamlit.components.v1 as components
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
@@ -16,7 +19,9 @@ from vmap.data.db import Database
 
 st.set_page_config(page_title="V-MAP", page_icon="📊", layout="wide")
 S = load_settings()
-
+# HTML dashboard
+APP_DIR = Path(__file__).resolve().parent
+HTML_FILE = APP_DIR / "templates" / "vmap_dashboard.html"
 
 @st.cache_data(ttl=20, show_spinner="Đang tính chỉ báo...")
 def cached_bundle(db_path: str, source: str):
@@ -68,8 +73,14 @@ sym = st.sidebar.selectbox("Mã cổ phiếu", symbols)
 sev_filter = st.sidebar.multiselect("Mức cảnh báo", ["WATCH", "WARNING", "CRITICAL"],
                                     default=["WATCH", "WARNING", "CRITICAL"])
 d_idx, d_book = idx[idx.session_date == day], book[book.session_date == day]
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["Tổng quan", "Trạng thái thị trường", "Thanh khoản cổ phiếu",
-                                        "Cảnh báo", "Phương pháp & giới hạn"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    "Tổng quan",
+    "Trạng thái thị trường",
+    "Thanh khoản cổ phiếu",
+    "Cảnh báo",
+    "Phương pháp & giới hạn",
+    "Dashboard mới"
+])
 
 # ------------------------------------------------------------------ 1. tổng quan
 with tab1:
@@ -175,7 +186,21 @@ Ngưỡng được hiệu chỉnh walk-forward: chỉ dùng các phiên **trư�
 - Mốc thời gian sàn có độ phân giải 1 giây; độ trễ chỉ đáng tin ở mức giây. Ngưỡng phụ thuộc mẫu quan sát (chưa chỉnh theo mùa vụ trong ngày).
 - Chưa chứng minh quan hệ nhân quả giữa mất cân bằng sổ lệnh và biến động giá. **Không phải khuyến nghị mua/bán.**
 """)
+# ------------------------------------------------------------------
+# 6. DASHBOARD HTML
+with tab6:
+    st.subheader("V-MAP - Vietnam Market Alert & Pulse")
 
+    if not HTML_FILE.exists():
+        st.error(f"Không tìm thấy file: {HTML_FILE}")
+    else:
+        html_content = HTML_FILE.read_text(encoding="utf-8")
+
+        components.html(
+            html_content,
+            height=1400,
+            scrolling=True
+        )
 if auto:
     time.sleep(20)
     st.cache_data.clear()

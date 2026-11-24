@@ -15,3 +15,10 @@ __pycache__/
 *.sqlite
 *.sqlite3
 *.db
+
+# macOS
+.DS_Store
+
+# Streamlit agent skills
+.agents/
+.claude/

@@ -147,7 +147,7 @@ class StreamSupervisor:
             log.exception("Lỗi khi xử lý thông điệp streaming")
 
     def _on_heartbeat(self, *args: Any, **kwargs: Any) -> None:
-        self._last_msg = time.monotonic()
+        self._touch_alive()
 
     def _on_connection(self, connected: Any, *args: Any) -> None:
         if connected is False:
@@ -210,6 +210,7 @@ class StreamSupervisor:
         backoff = 1
         while not stop.is_set():
             self._last_msg = time.monotonic()
+            self._lost_at = None
             worker_error: list[str] = []
             t = threading.Thread(target=self._worker, args=(stop, worker_error), daemon=True)
             t.start()

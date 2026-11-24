@@ -63,7 +63,7 @@ class Settings:
     obi_levels: int = 3
     depth_levels: int = 5
     price_scale: float = 1.0       # nhân giá SSI về VND nếu API trả theo nghìn đồng
-    heartbeat_timeout: int = 45    # giây không có tin trong giờ giao dịch => coi là mất kết nối
+    heartbeat_timeout: int = 180    # giây không có tin trong giờ giao dịch => coi là mất kết nối
     stale_after: int = 30          # giây: dữ liệu cũ hơn mức này bị gắn cờ "stale"
     late_tolerance: int = 2        # giây: tin có mốc thời gian lùi quá mức này bị coi là đến muộn
 
