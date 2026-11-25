@@ -22,3 +22,7 @@ __pycache__/
 # Streamlit agent skills
 .agents/
 .claude/
+
+__pycache__/
+*.py[cod]
+.pytest_cache/

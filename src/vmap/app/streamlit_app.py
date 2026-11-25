@@ -9,11 +9,11 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from vmap.app.styles import apply_styles
-from vmap.app.pages.overview import render as render_overview
-from vmap.app.pages.market import render as render_market
-from vmap.app.pages.liquidity import render as render_liquidity
-from vmap.app.pages.alerts import render as render_alerts
-from vmap.app.pages.reports import render_reports
+from vmap.app.screens.overview import render as render_overview
+from vmap.app.screens.market import render as render_market
+from vmap.app.screens.liquidity import render as render_liquidity
+from vmap.app.screens.alerts import render as render_alerts
+from vmap.app.screens.reports import render_reports
 from vmap.config import ROOT, load_settings
 
 try:
