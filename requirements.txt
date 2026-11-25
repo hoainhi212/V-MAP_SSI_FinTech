@@ -8,3 +8,7 @@ pytest>=7.4
 # SDK chính thức của SSI (chỉ cần khi chạy luồng WebSocket thật)
 ssi-fc-data>=2.2
 ssi_sdk
+
+# PDF reports
+reportlab>=4.0
+matplotlib>=3.7

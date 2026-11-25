@@ -68,3 +68,21 @@ Mã được viết theo mô hình dữ liệu SSI FastConnect đã biết nhưn
 - Bộ giám sát kết nối bỏ luồng cũ và dựng luồng mới khi mất tin (SDK chạy chặn nên không hủy sạch luồng được); nếu thấy rò luồng khi chạy dài, chạy `collect.py` dưới supervisor (systemd/Task Scheduler) tự khởi động lại.
 - Ngưỡng chưa chỉnh theo mùa vụ trong ngày; mốc thời gian sàn có độ phân giải 1 giây.
 - Kết quả trên dữ liệu mô phỏng chỉ kiểm tra quy trình, **không** phải bằng chứng thị trường.
+
+
+## Giao diện và báo cáo PDF
+
+Dashboard được tổ chức thành 5 trang: Tổng quan, Phân tích thị trường, Giám sát thanh khoản,
+Trung tâm cảnh báo và Báo cáo.
+
+Trong trang **Báo cáo**, người dùng chủ động chọn:
+- Báo cáo tổng hợp thị trường; hoặc
+- Báo cáo phân tích cổ phiếu (chọn thêm mã).
+
+Chọn ngày bắt đầu/kết thúc rồi bấm **Tạo báo cáo PDF**. Báo cáo tự động đưa vào toàn bộ phần nội dung phù hợp
+với loại báo cáo, gồm biểu đồ, bảng dữ liệu, cảnh báo (nếu có), nguồn và giới hạn diễn giải.
+Lịch sử PDF được lưu tại `data/report_history.sqlite`. Không có chức năng xuất theo lịch hoặc tự động.
+
+**Lưu ý khi nhận ZIP:** xem `docs/INTEGRATION_STATUS.md`. Bản ZIP đầu vào không có `src/vmap/data/`,
+là package lõi mà collector, database và dashboard đang phụ thuộc; cần khôi phục thư mục này từ bản gốc
+để chạy tích hợp end-to-end.
