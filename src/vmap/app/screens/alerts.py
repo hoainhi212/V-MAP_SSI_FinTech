@@ -2,15 +2,17 @@ import pandas as pd
 import streamlit as st
 
 
-def render(bundle, day):
-    st.header("Trung tâm cảnh báo")
+def render(bundle, day, selected_symbol="Tất cả mã"):
+    st.header("TRUNG TÂM CẢNH BÁO")
     alerts=bundle["alerts"]
     if alerts.empty:
-        st.info("Chưa có cảnh báo. Lưu ý: hệ thống chỉ hiệu chỉnh ngưỡng sau tối thiểu số phiên huấn luyện theo cấu hình.")
+        st.info("Chưa có cảnh báo phù hợp. Hệ thống chỉ hiệu chỉnh ngưỡng sau tối thiểu số phiên huấn luyện theo cấu hình.")
         return
     a=alerts.copy()
     a["_date"]=pd.to_datetime(a.start_ts,errors="coerce").dt.strftime("%Y-%m-%d")
     a=a[a["_date"]==str(day)].drop(columns="_date")
+    if selected_symbol != "Tất cả mã":
+        a=a[a.symbol.astype(str)==selected_symbol]
     severity=st.multiselect("Mức độ",["WATCH","WARNING","CRITICAL"],default=["WATCH","WARNING","CRITICAL"])
     a=a[a.severity.isin(severity)]
     if a.empty:

@@ -4,8 +4,8 @@ from plotly.subplots import make_subplots
 import streamlit as st
 
 
-def render(bundle, day):
-    st.header("Giám sát thanh khoản")
+def render(bundle, day, selected_symbol="Tất cả mã"):
+    st.header("GIÁM SÁT THANH KHOẢN")
     book=bundle["book"]
     if book.empty:
         st.info("Không có dữ liệu sổ lệnh hợp lệ.")
@@ -15,7 +15,17 @@ def render(bundle, day):
         st.info("Không có dữ liệu sổ lệnh cho phiên đã chọn.")
         return
     symbols=sorted(d.symbol.unique())
-    sym=st.selectbox("Mã cổ phiếu",symbols,key="liquidity_symbol")
+    if selected_symbol != "Tất cả mã":
+        symbols=[s for s in symbols if s == selected_symbol]
+        if not symbols:
+            st.info("Mã cổ phiếu đã chọn không có dữ liệu trong phiên này.")
+            return
+        sym=selected_symbol
+    else:
+        if not symbols:
+            st.info("Không có mã cổ phiếu trong phiên này.")
+            return
+        sym=st.selectbox("Mã cổ phiếu cần xem chi tiết",symbols,key="liquidity_symbol")
     s=d[d.symbol==sym].sort_values("minute")
     latest=s.iloc[-1]
     k=st.columns(5)
@@ -33,6 +43,6 @@ def render(bundle, day):
     fig.update_layout(height=650,hovermode="x unified")
     st.plotly_chart(fig,use_container_width=True)
     cols=[c for c in ["minute","obi","wobi","spread_bps","spread_ticks","depth_bid","depth_ask","depth_total","depth_ratio","n_snap"] if c in s]
-    st.subheader("Bảng dữ liệu theo phút")
+    st.subheader("BẢNG DỮ LIỆU THEO PHÚT")
     st.dataframe(s[cols],use_container_width=True,hide_index=True)
     st.download_button("Xuất dữ liệu CSV",s.to_csv(index=False).encode("utf-8-sig"),f"vmap_{sym}_{day}.csv","text/csv")

@@ -4,7 +4,7 @@ import streamlit as st
 
 
 def render(bundle, source, status, day=None):
-    st.header("Tổng quan")
+    st.header("TỔNG QUAN")
     idx,book,alerts=bundle["idx"],bundle["book"],bundle["alerts"]
     if idx.empty:
         st.info("Chưa có dữ liệu chỉ số để hiển thị.")
@@ -22,7 +22,7 @@ def render(bundle, source, status, day=None):
     cols[3].metric("Mã có dữ liệu",str(db.symbol.nunique()) if not db.empty else "—")
     cols[4].metric("Cảnh báo",str(len(da)))
     st.caption(f"Phiên {day} · Nguồn: {source} · {status.get('label','')}")
-    st.subheader(f"Trạng thái thị trường: {last.get('regime','—')}")
+    st.subheader(f"TRẠNG THÁI THỊ TRƯỜNG: {last.get('regime','—')}")
     if bool(last.get("divergence",False)):
         st.warning("Chỉ số và độ rộng thị trường đang phân kỳ. Diễn biến chỉ số có thể chưa phản ánh đồng đều toàn bộ rổ.")
     fig=go.Figure()

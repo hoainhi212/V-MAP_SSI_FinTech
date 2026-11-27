@@ -98,7 +98,7 @@ def _subscribe_all(streaming: Any, settings: Settings) -> list[str]:
 
     for idx in index_ids:
         if callable(getattr(streaming, "subscribe_index_summary", None)):
-            streaming.subscribe_index_summary(idx)
+            streaming.subscribe_index_summary([idx])
             registered.append(f"index_summary:{idx}")
         elif callable(getattr(streaming, "subscribe_index", None)):
             streaming.subscribe_index(idx)

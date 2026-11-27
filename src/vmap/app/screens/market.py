@@ -5,7 +5,7 @@ import streamlit as st
 
 
 def render(bundle, day):
-    st.header("Phân tích thị trường")
+    st.header("PHÂN TÍCH THỊ TRƯỜNG")
     idx=bundle["idx"]
     if idx.empty:
         st.info("Không có dữ liệu VN30 trong cơ sở dữ liệu.")
@@ -24,8 +24,8 @@ def render(bundle, day):
     fig.update_yaxes(title_text="MBI",range=[-1,1],secondary_y=True)
     fig.update_layout(height=430,title="Lợi suất VN30 và độ rộng thị trường",hovermode="x unified")
     st.plotly_chart(fig,use_container_width=True)
-    st.subheader("Phân bổ trạng thái")
+    st.subheader("PHÂN BỔ TRẠNG THÁI")
     st.dataframe(d.regime.value_counts().rename_axis("Trạng thái").reset_index(name="Số phút"),use_container_width=True,hide_index=True)
     cols=[c for c in ["minute","index_value","ret","advances","declines","unchanged","mbi","regime","total_value","value_ratio","divergence"] if c in d]
-    st.subheader("Dữ liệu chỉ số theo phút")
+    st.subheader("DỮ LIỆU CHỈ SỐ THEO PHÚT")
     st.dataframe(d[cols],use_container_width=True,hide_index=True)

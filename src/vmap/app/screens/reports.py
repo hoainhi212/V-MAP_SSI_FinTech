@@ -11,7 +11,7 @@ from vmap.reports.report_history import save_report, list_reports, get_report
 
 
 def render_reports(bundle: dict, source: str):
-    st.header("Trung tâm báo cáo")
+    st.header("BÁO CÁO")
     st.caption("Xuất PDF theo yêu cầu. Mỗi báo cáo tự động bao gồm toàn bộ nội dung phù hợp với loại báo cáo; không có lịch xuất tự động.")
     idx=bundle.get("idx",pd.DataFrame())
     book=bundle.get("book",pd.DataFrame())
